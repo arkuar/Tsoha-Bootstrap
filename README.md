@@ -7,5 +7,5 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 
-Aiheena on elokuviin keskittyvä keskustelufoorumi jossa käyttäjät voivat keskutella haluamistaan
+Aiheena on elokuviin keskittyvä keskustelufoorumi jossa käyttäjät voivat keskustella haluamistaan
 elokuvista.
