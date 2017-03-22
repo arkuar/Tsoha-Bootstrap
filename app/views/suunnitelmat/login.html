@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-4"></div>
+<div class="col-md-4">
+    <h2>Kirjaudu sisään</h2>
+    <br>
+    <form>
+        <div class="form-group">
+            <label>Käyttäjätunnus</label>
+            <input type="text" class="form-control" placeholder="Tunnus">
+        </div>
+        <div class="form-group">
+            <label>Salasana</label>
+            <input type="password" class="form-control" placeholder="Salasana">
+        </div>
+        <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+    </form>
+</div>
+{% endblock %}

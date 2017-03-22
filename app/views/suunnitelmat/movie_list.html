@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Elokuvat</h1>
+<table class="table table-hover">
+    <thead>
+    <th>Viestejä</th>
+    <th>Elokuva</th>
+    <th>Julkaisuvuosi</th>
+</thead>
+<tbody>
+    <tr>
+        <td>20</td>
+        <td><a href="#">Logan</a></td>
+        <td>2017</td>
+        <td><button class="btn btn-danger">Poista</button></td>
+    </tr>
+    <tr>
+        <td>12</td>
+        <td><a href="#">Kong: Skull Island</a></td>
+        <td>2017</td>
+        <td><button class="btn btn-danger">Poista</button></td>
+    </tr>
+</tbody>
+</table>
+
+<button class="btn btn-primary">Lisää elokuva</button>
+
+{% endblock %}

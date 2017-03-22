@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Genre: Toiminta</h1>
+<p>Toimintaelokuva on näyttävä ja nopearytminen elokuva, jonka 
+    tyypillisiä piirteitä ovat muun muassa takaa-ajot, 
+    räjähdykset, väkivaltaiset tappelut, katastrofit, 
+    nopea rytmi sekä pääosassa kekseliäs,
+    voimakas ja rohkea sankari.</p>
+
+<h3>Elokuvia, jotka kuuluvat genreen</h3>
+<table class="table table-hover">
+    <thead>
+    <th>Elokuva</th>
+    <th>Julkaisuvuosi</th>
+</thead>
+<tbody>
+    <tr>
+        <td><a href="#">Logan</a></td>
+        <td>2017</td>
+    </tr>
+    <tr>
+        <td><a href="#">Kong: Skull Island</a></td>
+        <td>2017</td>
+    </tr>
+</tbody>
+</table>
+
+<button class="btn btn-primary">Muokkaa</button>
+<button class="btn btn-danger">Poista</button>
+
+{% endblock %}

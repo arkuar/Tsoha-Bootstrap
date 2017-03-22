@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Muokkaa elokuvaa Logan</h1>
+<div class="col-md-6">
+    <form>
+        <div class="form-group">
+            <label>Nimi</label>
+            <input type="text" class="form-control" value="Logan">
+        </div>
+        <div class="form-group">
+            <label>Julkaisuvuosi</label>
+            <input type="number" class="form-control" value="2017">
+        </div>
+        <button type="submit" class="btn btn-primary">Tallenna</button>
+    </form>
+</div>
+
+{% endblock %}
