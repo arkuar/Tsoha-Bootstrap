@@ -17,7 +17,7 @@ Linkit suunniteltuihin näkymiin:
 
 Linkit toimiviin näkymiin:
 * [Etusivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies)
-* [Uuden elokuvan lisäävä lomake](http://arkuar.users.cs.helsinki.fi/tsoha/movies/1/edit)
+* [Uuden elokuvan lisäävä lomake](http://arkuar.users.cs.helsinki.fi/tsoha/movies/new)
 * [Elokuvan esittelysivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies/1)
 
 ## Työn aihe
