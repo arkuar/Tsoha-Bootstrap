@@ -13,11 +13,19 @@ $routes->get('/login', function() {
 });
 
 $routes->get('/movies', function() {
-    HelloWorldController::movie_list();
+    MovieController::index();
 });
 
-$routes->get('/movies/1', function() {
-    HelloWorldController::movie_show();
+$routes->post('/movies', function(){
+    MovieController::store(); 
+});
+
+$routes->get('/movies/new', function() {
+    MovieController::create();
+});
+
+$routes->get('/movies/:id', function($id) {
+    MovieController::show($id);
 });
 
 $routes->get('/movies/1/edit', function() {

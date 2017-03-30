@@ -1,5 +1,4 @@
 <?php
-
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -9,7 +8,11 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        View::make('helloworld.html');
+        $users = Account::all();
+        $messages = Message::find_by_movie(1);
+        
+        Kint::dump($users);
+        Kint::dump($messages);
     }
 
     public static function login() {

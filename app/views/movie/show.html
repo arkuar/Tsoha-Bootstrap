@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+{% if notice is not empty %}
+<div class="alert alert-success">
+    {{notice}}
+</div>
+{% endif %}
+<h1>{{movie.name}}, ({{movie.year}})</h1>
+{% if movie.description == false %}
+<p>Ei kuvausta</p>
+{% else %}
+<p>{{movie.description}}</p>
+{% endif %}
+<label>Genret: <a href="#">Toiminta</a>, 
+    <a href="#">Draama</a>, 
+    <a href="#">Sci-Fi</a>
+</label>
+
+<h2>Viestit:</h2>
+{% if messages is not empty %}
+{% for message in messages %}
+<blockquote class="blockquote bg-info">
+    <p>{{message.content}}</p>
+    <footer> {{user[message.user_id].username}} <cite>{{message.posted_at}}</cite></footer>
+</blockquote>
+{% endfor %}
+{% else %}
+<label>Ei viestejä.</label>
+{% endif %}
+<br>
+
+<button class="btn btn-primary">Uusi viesti</button>
+<button class="btn btn-primary">Muokkaa</button>
+<button class="btn btn-danger">Poista</button>
+
+{% endblock %}
