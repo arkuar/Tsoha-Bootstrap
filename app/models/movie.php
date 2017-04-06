@@ -6,6 +6,34 @@ class Movie extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_name', 'validate_year');
+    }
+
+    public function validate_name() {
+        $errors = array();
+        $message = parent::validate_field($this->name, 'Nimi ei saa olla tyhjä!');
+        if ($message != '') {
+            $errors[] = $message;
+        }
+        if (strlen($this->name) > 250) {
+            $errors[] = 'Nimen tulee olla alle 250 merkkiä!';
+        }
+        return $errors;
+    }
+
+    public function validate_year() {
+        $errors = array();
+        $message = parent::validate_field($this->year, 'Vuosi ei saa olla tyhjä!');
+        if ($message != '') {
+            $errors[] = $message;
+        }
+        if (intval($this->year) < 0) {
+            $errors[] = 'Vuoden pitää olla positiivinen!';
+        }
+        if (intval($this->year) > intval(date("Y"))) {
+            $errors[] = 'Vuosi ei voi olla suurempi kuin nykyinen!';
+        }
+        return $errors;
     }
 
     public static function all() {
@@ -48,14 +76,43 @@ class Movie extends BaseModel {
         return null;
     }
 
+    public static function find_by_genre($id) {
+        $query = DB::connection()->prepare('SELECT movie.name, movie.id, movie.year FROM Movie '
+                . 'INNER JOIN MovieGenre mg ON mg.movie_id = movie.id AND mg.genre_id = :id');
+        $query->execute(array('id' => $id));
+        $rows = $query->fetchAll();
+        $movies = array();
+        foreach ($rows as $row) {
+            $movies[] = new Movie(array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'year' => $row['year']
+            ));
+        }
+        return $movies;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Movie (creator_id, name, year, description)'
                 . ' VALUES (:creator_id, :name, :year, :description) RETURNING id');
-        
+
         $query->execute(array('creator_id' => 1, 'name' => $this->name, 'year' => $this->year, 'description' => $this->description));
-        
+
         $row = $query->fetch();
         $this->id = $row['id'];
+    }
+
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Movie SET '
+                . 'name = :name, year = :year, description = :description'
+                . ' WHERE id = :id');
+
+        $query->execute(array('id' => $this->id, 'name' => $this->name, 'year' => $this->year, 'description' => $this->description));
+    }
+
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Movie WHERE id = :id');
+        $query->execute(array('id' => $this->id));
     }
 
 }

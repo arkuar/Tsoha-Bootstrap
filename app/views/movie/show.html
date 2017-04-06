@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
 {% block content %}
 {% if notice is not empty %}
 <div class="alert alert-success">
@@ -11,9 +12,14 @@
 {% else %}
 <p>{{movie.description}}</p>
 {% endif %}
-<label>Genret: <a href="#">Toiminta</a>, 
-    <a href="#">Draama</a>, 
-    <a href="#">Sci-Fi</a>
+<label>Genret:
+    {% if genres is empty %}
+    Ei genrejä.
+    {% else %}
+    {% for genre in genres %}
+    <a href="{{base_path}}/genres/{{genre.id}}">{{genre.name}}</a>
+    {% endfor %}
+    {% endif %}
 </label>
 
 <h2>Viestit:</h2>
@@ -29,8 +35,9 @@
 {% endif %}
 <br>
 
+{% if user_logged_in %}
 <button class="btn btn-primary">Uusi viesti</button>
-<button class="btn btn-primary">Muokkaa</button>
-<button class="btn btn-danger">Poista</button>
-
+{{forms.edit_button("#{base_path}/movies/#{movie.id}/edit")}}
+{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy")}}
+{% endif %}
 {% endblock %}

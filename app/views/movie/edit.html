@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Lisää uusi elokuva</h1>
+<h1>Muokkaa elokuvaa {{attributes.name}}</h1>
 <div class="col-md-6">
     {% if errors %}
     <div class="alert alert-danger">
@@ -12,7 +12,8 @@
         </ul>
     </div>
     {% endif %}
-    <form method="post" action="{{base_path}}/movies">
+    <form method="post" action="{{base_path}}/movies/{{attributes.id}}/edit">
+        <input type="hidden" name="id" value="{{attributes.id}}">
         <div class="form-group">
             <label>Nimi</label>
             <input type="text" name="name" class="form-control" value="{{attributes.name}}">
@@ -25,7 +26,7 @@
             <label>Kuvaus</label>
             <textarea name="description" class="form-control">{{attributes.description}}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Lisää</button>
+        <button type="submit" class="btn btn-primary">Tallenna muutokset</button>
     </form>
 </div>
 

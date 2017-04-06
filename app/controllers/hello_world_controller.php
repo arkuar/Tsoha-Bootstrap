@@ -8,11 +8,13 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $users = Account::all();
-        $messages = Message::find_by_movie(1);
+        $movie = new Movie(array(
+            'name' => '',
+            'year' => ''
+        ));
+        $errors = $movie->errors();
         
-        Kint::dump($users);
-        Kint::dump($messages);
+        Kint::dump($errors);
     }
 
     public static function login() {

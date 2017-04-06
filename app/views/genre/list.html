@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+{% if notice is not empty %}
+<div class="alert alert-success">
+    {{notice}}
+</div>
+{% endif %}
+<h1>Genret</h1>
+<table class="table table-hover">
+    <thead>
+    <th>Genre</th>
+    <th>Elokuvien määrä</th>
+</thead>
+<tbody>
+    {% for genre in genres %}
+    <tr>
+        <td><a href="{{base_path}}/genres/{{genre.id}}">{{genre.name}}</a></td>
+        <td>{{genre.moviecount}}</td>
+        {% if user_logged_in %}
+        <td>{{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy")}}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% if user_logged_in %}
+{{forms.add_button("#{base_path}/genres/new", "genre")}}
+{% endif %}
+{% endblock %}
