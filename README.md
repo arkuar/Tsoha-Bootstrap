@@ -5,6 +5,7 @@ Yleisiä linkkejä:
 * [Linkki sovellukseeni](http://arkuar.users.cs.helsinki.fi/tsoha/)
 * [Linkki dokumentaatiooni](/doc/dokumentaatio.pdf)
 
+
 Linkit suunniteltuihin näkymiin:
 * [Etusivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies)
 * [Elokuvan muokkaussivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies/1/edit)
@@ -13,6 +14,11 @@ Linkit suunniteltuihin näkymiin:
 * [Genren muokkaussivu](http://arkuar.users.cs.helsinki.fi/tsoha/genres/1/edit)
 * [Genren esittelysivu](http://arkuar.users.cs.helsinki.fi/tsoha/genres/1)
 * [Viestin muokkaussivu](http://arkuar.users.cs.helsinki.fi/tsoha/messages/1/edit)
+
+Linkit toimiviin näkymiin:
+* [Etusivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies)
+* [Uuden elokuvan lisäävä lomake](http://arkuar.users.cs.helsinki.fi/tsoha/movies/new)
+* [Elokuvan esittelysivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies/1)
 
 ## Työn aihe
 
