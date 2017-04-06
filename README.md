@@ -15,10 +15,11 @@ Linkit suunniteltuihin näkymiin:
 * [Genren esittelysivu](http://arkuar.users.cs.helsinki.fi/tsoha/genres/1)
 * [Viestin muokkaussivu](http://arkuar.users.cs.helsinki.fi/tsoha/messages/1/edit)
 
-Linkit toimiviin näkymiin:
-* [Etusivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies)
-* [Uuden elokuvan lisäävä lomake](http://arkuar.users.cs.helsinki.fi/tsoha/movies/new)
-* [Elokuvan esittelysivu](http://arkuar.users.cs.helsinki.fi/tsoha/movies/1)
+Sisäänkirjautumiseen tarvittava tunnus:
+
+- Käyttäjätunnus: Pekka
+
+- Salasana: Sala1
 
 ## Työn aihe
 
