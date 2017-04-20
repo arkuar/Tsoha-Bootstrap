@@ -21,6 +21,12 @@ Sisäänkirjautumiseen tarvittava tunnus:
 
 - Salasana: Sala1
 
+Ylläpitäjän tunnus:
+
+- Käyttäjätunnus: admin
+
+- Salasana: Salasana123
+
 ## Työn aihe
 
 Aiheena on elokuviin keskittyvä keskustelufoorumi jossa käyttäjät voivat keskustella haluamistaan
