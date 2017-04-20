@@ -36,8 +36,10 @@
 <br>
 
 {% if user_logged_in %}
-<button class="btn btn-primary">Uusi viesti</button>
+{{forms.send_button("#{base_path}/movies/#{movie.id}/new")}}
+{% if user_logged_in.id == movie.creator_id or user_logged_in.administrator %}
 {{forms.edit_button("#{base_path}/movies/#{movie.id}/edit")}}
 {{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy")}}
+{% endif %}
 {% endif %}
 {% endblock %}

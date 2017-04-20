@@ -8,8 +8,8 @@ class Genre extends BaseModel {
         parent::__construct($attributes);
         $this->validators = array('validate_name');
     }
-    
-    public function validate_name(){
+
+    public function validate_name() {
         $errors = array();
         $message = parent::validate_field($this->name, 'Nimi ei saa olla tyhjä!');
         if ($message != '') {
@@ -88,6 +88,9 @@ class Genre extends BaseModel {
     }
 
     public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM MovieGenre WHERE genre_id = :id');
+        $query->execute(array('id' => $this->id));
+
         $query = DB::connection()->prepare('DELETE FROM Genre WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }

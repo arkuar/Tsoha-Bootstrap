@@ -6,6 +6,31 @@ class Account extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_username', 'validate_password');
+    }
+
+    public function validate_username() {
+        $errors = array();
+        $message = parent::validate_field($this->username, 'Käyttäjätunnus ei saa olla tyhjä!');
+        if ($message != '') {
+            $errors[] = $message;
+        }
+        if (strlen($this->username) > 15) {
+            $errors[] = 'Käyttäjätunnuksen tulee olla alle 15 merkkiä!';
+        }
+        return $errors;
+    }
+
+    public function validate_password() {
+        $errors = array();
+        $message = parent::validate_field($this->password, 'Salasana ei saa olla tyhjä!');
+        if ($message != '') {
+            $errors[] = $message;
+        }
+        if(strlen($this->password) > 50){
+            $errors[] = 'Salasanan tulee olla alle 50 merkkiä!';
+        }
+        return $errors;
     }
 
     public static function all() {
@@ -49,7 +74,7 @@ class Account extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-                if ($row['password'] === $password) {
+            if ($row['password'] === $password) {
                 return new Account(array(
                     'id' => $row['id'],
                     'username' => $row['username'],
@@ -63,6 +88,24 @@ class Account extends BaseModel {
         } else {
             return null;
         }
+    }
+
+    public static function unique($username) {
+        $query = DB::connection()->prepare('SELECT * FROM Account WHERE username = :username LIMIT 1');
+        $query->execute(array('username' => $username));
+        $row = $query->fetch();
+        if ($row) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function save(){
+        $query = DB::connection()->prepare('INSERT INTO Account (username, password) VALUES (:username, :password) RETURNING id');
+        $query->execute(array('username' => $this->username, 'password' => $this->password));
+        $row = $query->fetch();
+        $_SESSION['user'] = $row['id'];
     }
 
 }

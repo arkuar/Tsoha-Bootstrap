@@ -2,7 +2,7 @@
 
 class Movie extends BaseModel {
 
-    public $id, $creator_id, $name, $year, $description, $messagecount;
+    public $id, $creator_id, $name, $year, $description, $messagecount, $genres;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -96,10 +96,15 @@ class Movie extends BaseModel {
         $query = DB::connection()->prepare('INSERT INTO Movie (creator_id, name, year, description)'
                 . ' VALUES (:creator_id, :name, :year, :description) RETURNING id');
 
-        $query->execute(array('creator_id' => 1, 'name' => $this->name, 'year' => $this->year, 'description' => $this->description));
+        $query->execute(array('creator_id' => $this->creator_id, 'name' => $this->name, 'year' => $this->year, 'description' => $this->description));
 
         $row = $query->fetch();
         $this->id = $row['id'];
+
+        $query = DB::connection()->prepare('INSERT INTO MovieGenre (movie_id, genre_id) VALUES (:movie_id, :genre_id)');
+        foreach ($this->genres as $genre) {
+            $query->execute(array('movie_id' => $this->id, 'genre_id' => $genre));
+        }
     }
 
     public function update() {
@@ -108,9 +113,20 @@ class Movie extends BaseModel {
                 . ' WHERE id = :id');
 
         $query->execute(array('id' => $this->id, 'name' => $this->name, 'year' => $this->year, 'description' => $this->description));
+
+        $query = DB::connection()->prepare('DELETE FROM MovieGenre WHERE movie_id = :id');
+        $query->execute(array('id' => $this->id));
+
+        $query = DB::connection()->prepare('INSERT INTO MovieGenre (movie_id, genre_id) VALUES (:movie_id, :genre_id)');
+        foreach ($this->genres as $genre) {
+            $query->execute(array('movie_id' => $this->id, 'genre_id' => $genre));
+        }
     }
 
     public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM MovieGenre WHERE movie_id = :id');
+        $query->execute(array('id' => $this->id));
+
         $query = DB::connection()->prepare('DELETE FROM Movie WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }

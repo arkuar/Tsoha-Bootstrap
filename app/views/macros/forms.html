@@ -15,3 +15,9 @@
     <button type="submit" class="btn btn-primary">Lisää {{object}}</button>
 </form>
 {% endmacro %}
+
+{% macro send_button(action) %}
+<form method="get" action="{{action}}" style="display: inline-block;">
+    <button class="btn btn-primary">Uusi viesti</button>
+</form>
+{% endmacro %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Uusi viesti elokuvaan {{movie.name}}</h1>
+<div class="col-md-6">
+    <form method="post" action="{{base_path}}/movies/{{movie.id}}/new">
+        <div class="form-group">
+            <label>Viestin sisältö</label>
+            <textarea class="form-control" rows="3" name="content"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Lähetä</button>
+    </form>
+</div>
+
+{% endblock %}

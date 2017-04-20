@@ -14,6 +14,7 @@ class GenreController extends BaseController {
     }
 
     public static function create() {
+        self::check_logged_in();
         View::make('genre/new.html');
     }
 
@@ -34,17 +35,27 @@ class GenreController extends BaseController {
     }
 
     public static function edit($id) {
-        $genre = Genre::find($id);
-        View::make('genre/edit.html', array('attributes' => $genre));
+        self::check_logged_in();
+        if (self::user_is_admin()) {
+            $genre = Genre::find($id);
+            View::make('genre/edit.html', array('attributes' => $genre));
+        } else {
+            Redirect::to('/genres', array('notice' => 'Sinulla ei ole tarvittavia oikeuksia'));
+        }
     }
 
     public static function update($id) {
+        self::check_logged_in();
         $params = $_POST;
         $genre = new Genre(array(
             'id' => $params['id'],
             'name' => $params['name'],
             'description' => $params['description']
         ));
+
+        if (!self::user_is_admin()) {
+            Redirect::to('/genres', array('notice' => 'Sinulla ei ole tarvittavia oikeuksia'));
+        }
         $errors = $genre->errors();
         if (count($errors) == 0) {
             $genre->update();
@@ -55,6 +66,10 @@ class GenreController extends BaseController {
     }
 
     public static function destroy($id) {
+        self::check_logged_in();
+        if (!self::user_is_admin()) {
+            Redirect::to('/genres', array('notice' => 'Sinulla ei ole tarvittavia oikeuksia'));
+        }
         $genre = new Genre(array('id' => $id));
         $genre->destroy();
         Redirect::to('/genres', array('notice' => 'Genre poistettu onnistuneesti'));

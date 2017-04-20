@@ -1,7 +1,7 @@
 -- Lisää CREATE TABLE lauseet tähän tiedostoon
 CREATE TABLE Account(
     id SERIAL PRIMARY KEY,
-    username varchar(15) NOT NULL,
+    username varchar(15) NOT NULL UNIQUE,
     password varchar(50) NOT NULL,
     administrator boolean DEFAULT FALSE,
     banned boolean DEFAULT FALSE

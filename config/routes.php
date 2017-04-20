@@ -16,6 +16,14 @@ $routes->post('/login', function() {
     AccountController::handle_login();
 });
 
+$routes->get('/register', function() {
+    AccountController::register();
+});
+
+$routes->post('/register', function() {
+    AccountController::store();
+});
+
 $routes->get('/logout', function() {
     AccountController::logout();
 });
@@ -34,6 +42,14 @@ $routes->get('/movies/new', function() {
 
 $routes->get('/movies/:id', function($id) {
     MovieController::show($id);
+});
+
+$routes->post('/movies/:id/new', function($id) {
+    MessageController::store($id);
+});
+
+$routes->get('/movies/:id/new', function($id) {
+    MessageController::create($id);
 });
 
 $routes->get('/movies/:id/edit', function($id) {

@@ -19,7 +19,7 @@
         <td>{{movie.messagecount}}</td>
         <td><a href="{{base_path}}/movies/{{movie.id}}">{{movie.name}}</a></td>
         <td>{{movie.year}}</td>
-        {% if user_logged_in %}
+        {% if user_logged_in.id == movie.creator_id or user_logged_in.administrator %}
         <td>{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy")}}</td>
         {% endif %}
     </tr>

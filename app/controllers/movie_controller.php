@@ -17,17 +17,26 @@ class MovieController extends BaseController {
     }
 
     public static function create() {
-        View::make('movie/new.html');
+        self::check_logged_in();
+        $genres = Genre::all();
+        View::make('movie/new.html', array('genres' => $genres));
     }
 
     public static function store() {
+        self::check_logged_in();
         $params = $_POST;
-
+        $genres = $params['genres'];
         $movie = new Movie(array(
+            'creator_id' => parent::get_user_logged_in()->id,
             'name' => $params['name'],
             'year' => $params['year'],
-            'description' => $params['description']
+            'description' => $params['description'],
+            'genres' => array()
         ));
+
+        foreach ($genres as $genre) {
+            $movie->genres[] = $genre;
+        }
 
         $errors = $movie->errors();
         if (count($errors) == 0) {
@@ -39,20 +48,38 @@ class MovieController extends BaseController {
     }
 
     public static function edit($id) {
+        self::check_logged_in();
         $movie = Movie::find($id);
-        View::make('movie/edit.html', array('attributes' => $movie));
+        $genres = Genre::all();
+        if (self::user_is_author($movie)) {
+            View::make('movie/edit.html', array('attributes' => $movie, 'genres' => $genres));
+        } else {
+            Redirect::to('/movies/' . $movie->id, array('notice' => 'Sinulla ei ole oikeuksia toimintoon!'));
+        }
     }
 
     public static function update($id) {
+        self::check_logged_in();
         $params = $_POST;
+        $genres = $params['genres'];
 
         $movie = new Movie(array(
             'id' => $id,
+            'creator_id' => $params['creator_id'],
             'name' => $params['name'],
             'year' => $params['year'],
-            'description' => $params['description']
+            'description' => $params['description'],
+            'genres' => array()
         ));
 
+        foreach ($genres as $genre) {
+            $movie->genres[] = $genre;
+        }
+
+        $authored = self::user_is_author($movie);
+        if (!$authored) {
+            Redirect::to('/movies/' . $movie->id, array('notice' => 'Sinulla ei ole oikeuksia toimintoon!'));
+        }
 
         $errors = $movie->errors();
         if (count($errors) == 0) {
@@ -64,11 +91,15 @@ class MovieController extends BaseController {
     }
 
     public static function destroy($id) {
-        $movie = new Movie(array('id' => $id));
+        self::check_logged_in();
+        $movie = Movie::find($id);
 
-        $movie->destroy();
-
-        Redirect::to('/movies', array('notice' => 'Elokuva poistettu onnistuneesti'));
+        if (self::user_is_author($movie)) {
+            $movie->destroy();
+            Redirect::to('/movies', array('notice' => 'Elokuva poistettu onnistuneesti'));
+        } else {
+            Redirect::to('/movies/' . $movie->id, array('notice' => 'Sinulla ei ole oikeuksia toimintoon!'));
+        }
     }
 
 }

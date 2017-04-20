@@ -26,8 +26,14 @@ class Message extends BaseModel {
                 'posted_at' => $posted
             ));
         }
-        
+
         return $messages;
+    }
+
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Message (user_id, movie_id, content, posted_at) '
+                . 'VALUES (:user_id, :movie_id, :content, CURRENT_TIMESTAMP)');
+        $query->execute(array('user_id' => $this->user_id, 'movie_id' => $this->movie_id, 'content' => $this->content));
     }
 
 }

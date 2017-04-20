@@ -29,7 +29,7 @@
 </table>
 {% endif %}
 
-{% if user_logged_in %}
+{% if user_logged_in.administrator %}
 {{forms.edit_button("#{base_path}/genres/#{genre.id}/edit")}}
 {{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy")}}
 {% endif %}
