@@ -107,5 +107,11 @@ class Account extends BaseModel {
         $row = $query->fetch();
         $_SESSION['user'] = $row['id'];
     }
+    
+    public function update(){
+        $query = DB::connection()->prepare('UPDATE Account SET '
+                . 'password = :password WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'password' => $this->password));
+    }
 
 }

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+{% if notice is not empty %}
+<div class="alert alert-success">
+    {{notice}}
+</div>
+{% endif %}
+<h1>Käyttäjä: {{account.name}}</h1>
+{% if account.banned %}
+<label class="label label-danger">Banned</label>
+{% endif %}
+
+
+{% if user_logged_in %}
+{{forms.edit_button("#{base_path}/accounts/#{account.id}/edit")}}
+{{forms.destroy_button("#{base_path}/accounts/#{account.id}/destroy")}}
+{% endif %}
+{% endblock %}

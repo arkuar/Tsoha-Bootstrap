@@ -12,8 +12,12 @@ class MovieController extends BaseController {
         $messages = Message::find_by_movie($id);
         $genres = Genre::find_by_movie($id);
         $users = Account::all();
-        View::make('movie/show.html', array('movie' => $movie,
-            'messages' => $messages, 'user' => $users, 'genres' => $genres));
+        if ($movie) {
+            View::make('movie/show.html', array('movie' => $movie,
+                'messages' => $messages, 'user' => $users, 'genres' => $genres));
+        } else {
+            Redirect::to('/');
+        }
     }
 
     public static function create() {
@@ -93,8 +97,12 @@ class MovieController extends BaseController {
     public static function destroy($id) {
         self::check_logged_in();
         $movie = Movie::find($id);
+        $messages = Message::find_by_movie($id);
 
         if (self::user_is_author($movie)) {
+            foreach ($messages as $message) {
+                $message->destroy();
+            }
             $movie->destroy();
             Redirect::to('/movies', array('notice' => 'Elokuva poistettu onnistuneesti'));
         } else {

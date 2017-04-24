@@ -6,6 +6,33 @@ class Message extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_content');
+    }
+
+    public function validate_content() {
+        $errors = array();
+        $error = parent::validate_field($this->content, 'Tyhjää viestiä ei voi lähettää!');
+        if ($error != '') {
+            $errors[] = $error;
+        }
+        return $errors;
+    }
+
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Message WHERE id = :id LIMIT 1');
+        $query->execute(array('id' => $id));
+
+        $row = $query->fetch();
+        if ($row) {
+            $message = new Message(array(
+                'id' => $row['id'],
+                'user_id' => $row['user_id'],
+                'movie_id' => $row['movie_id'],
+                'content' => $row['content'],
+            ));
+            return $message;
+        }
+        return null;
     }
 
     public static function find_by_movie($id) {
@@ -34,6 +61,11 @@ class Message extends BaseModel {
         $query = DB::connection()->prepare('INSERT INTO Message (user_id, movie_id, content, posted_at) '
                 . 'VALUES (:user_id, :movie_id, :content, CURRENT_TIMESTAMP)');
         $query->execute(array('user_id' => $this->user_id, 'movie_id' => $this->movie_id, 'content' => $this->content));
+    }
+    
+    public function destroy(){
+        $query = DB::connection()->prepare('DELETE FROM Message WHERE id = :id');
+        $query->execute(array('id' => $this->id));
     }
 
 }

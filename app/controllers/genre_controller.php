@@ -10,7 +10,12 @@ class GenreController extends BaseController {
     public static function show($id) {
         $genre = Genre::find($id);
         $movies = Movie::find_by_genre($id);
-        View::make('genre/show.html', array('genre' => $genre, 'movies' => $movies));
+        if ($genre) {
+            View::make('genre/show.html', array('genre' => $genre, 'movies' => $movies));
+        } else {
+            Redirect::to('/genres');
+        }
+        
     }
 
     public static function create() {

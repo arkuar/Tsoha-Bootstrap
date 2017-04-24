@@ -27,6 +27,7 @@
 {% for message in messages %}
 <blockquote class="blockquote bg-info">
     <p>{{message.content}}</p>
+    <p>{{forms.destroy_button("#{base_path}/messages/#{message.id}/destroy")}}</p>
     <footer> {{user[message.user_id].username}} <cite>{{message.posted_at}}</cite></footer>
 </blockquote>
 {% endfor %}

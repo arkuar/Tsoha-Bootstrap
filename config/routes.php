@@ -44,8 +44,8 @@ $routes->get('/movies/:id', function($id) {
     MovieController::show($id);
 });
 
-$routes->post('/movies/:id/new', function($id) {
-    MessageController::store($id);
+$routes->post('/movies/:id/new', function() {
+    MessageController::store();
 });
 
 $routes->get('/movies/:id/new', function($id) {
@@ -64,8 +64,8 @@ $routes->post('/movies/:id/destroy', function($id) {
     MovieController::destroy($id);
 });
 
-$routes->get('/messages/1/edit', function() {
-    HelloWorldController::message_edit();
+$routes->post('/messages/:id/destroy', function($id) {
+    MessageController::destroy($id);
 });
 
 $routes->get('/genres', function() {
