@@ -36,12 +36,24 @@ class Movie extends BaseModel {
         return $errors;
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT movie.*, COUNT(m.id) FROM Movie movie'
+    public static function all($options) {
+        $query_string = 'SELECT movie.*, COUNT(m.id) FROM Movie movie'
                 . ' LEFT JOIN Message m ON m.movie_id = Movie.id GROUP BY movie.id, movie.creator_id'
-                . ', movie.name, movie.year, movie.description');
-        $query->execute();
-
+                . ', movie.name, movie.year, movie.description';
+        
+        if(isset($options['search'])){
+            $query_string = 'SELECT movie.*, COUNT(m.id) FROM Movie movie'
+                    . ' INNER JOIN Message m ON m.movie_id = movie.id AND UPPER(movie.name) LIKE UPPER(:like)'
+                    . ' GROUP BY movie.id, movie.creator_id, movie.name, movie.year, movie.description;';
+            $options['like'] = '%' . $options['search'] . '%';
+        }
+        
+        $query = DB::connection()->prepare($query_string);
+        if(isset($options['search'])){
+            $query->execute(array('like' => $options['like']));
+        } else {
+            $query->execute();
+        }
         $rows = $query->fetchAll();
         $movies = array();
 

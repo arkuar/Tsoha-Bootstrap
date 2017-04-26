@@ -31,6 +31,6 @@
 
 {% if user_logged_in.administrator %}
 {{forms.edit_button("#{base_path}/genres/#{genre.id}/edit")}}
-{{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy")}}
+{{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy", "genren")}}
 {% endif %}
 {% endblock %}

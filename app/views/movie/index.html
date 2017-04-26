@@ -7,6 +7,12 @@
 </div>
 {% endif %}
 <h1>Elokuvat</h1>
+<form method="get" action="" class="form-inline">
+    <div class="form-group">
+        <input type="text" name="search" class="form-control" placeholder="Hakusana">
+    </div>
+    <button type="submit" class="btn btn-default">Hae</button>
+</form>
 <table class="table table-hover">
     <thead>
     <th>Viestejä</th>
@@ -20,7 +26,7 @@
         <td><a href="{{base_path}}/movies/{{movie.id}}">{{movie.name}}</a></td>
         <td>{{movie.year}}</td>
         {% if user_logged_in.id == movie.creator_id or user_logged_in.administrator %}
-        <td>{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy")}}</td>
+        <td>{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy", "elokuvan")}}</td>
         {% endif %}
     </tr>
     {% endfor %}

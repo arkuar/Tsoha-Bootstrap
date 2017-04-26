@@ -27,13 +27,18 @@ class MessageController extends BaseController {
             View::make('/message/new.html', array('errors' => $errors, 'movie' => $movie));
         }
     }
-    
-    public static function destroy($id){
+
+    public static function destroy($id) {
         self::check_logged_in();
         $message = Message::find($id);
         $movie_id = $message->movie_id;
-        $message->destroy();
-        Redirect::to('/movies/' . $movie_id, array('notice' => 'Viesti poistettu onnistuneesti'));
+
+        if (self::user_is_poster($message)) {
+            $message->destroy();
+            Redirect::to('/movies/' . $movie_id, array('notice' => 'Viesti poistettu onnistuneesti'));
+        } else {
+            Redirect::to('/movies/' . $movie_id, array('notice' => 'Sinulla ei ole oikeuksia toimintoon'));
+        }
     }
 
 }

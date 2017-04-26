@@ -6,14 +6,25 @@
     {{notice}}
 </div>
 {% endif %}
-<h1>Käyttäjä: {{account.name}}</h1>
+<h1>Käyttäjä: {{account.username}}</h1>
 {% if account.banned %}
 <label class="label label-danger">Banned</label>
 {% endif %}
-
-
+<br>
+<br>
 {% if user_logged_in %}
-{{forms.edit_button("#{base_path}/accounts/#{account.id}/edit")}}
-{{forms.destroy_button("#{base_path}/accounts/#{account.id}/destroy")}}
+{{forms.edit_button("#{base_path}/accounts/#{account.id}/edit", "Vaihda salasana")}}
+{{forms.destroy_button("#{base_path}/accounts/#{account.id}/destroy", "käyttäjä")}}
+{% endif %}
+{% if user_logged_in.administrator %}
+{% if account.banned %}
+<form method="post" action="{{base_path}}/accounts/{{account.id}}/show" style="display: inline-block;">
+    <button type="submit" class="btn btn-info">Vapauta käyttäjätili</button>
+</form>
+{% else %}
+<form method="post" action="{{base_path}}/accounts/{{account.id}}/show" style="display: inline-block;">
+    <button type="submit" class="btn btn-info">Jäädytä käyttäjätili</button>
+</form>
+{% endif %}
 {% endif %}
 {% endblock %}

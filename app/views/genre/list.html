@@ -18,7 +18,7 @@
         <td><a href="{{base_path}}/genres/{{genre.id}}">{{genre.name}}</a></td>
         <td>{{genre.moviecount}}</td>
         {% if user_logged_in.administrator %}
-        <td>{{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy")}}</td>
+        <td>{{forms.destroy_button("#{base_path}/genres/#{genre.id}/destroy", "genren")}}</td>
         {% endif %}
     </tr>
     {% endfor %}

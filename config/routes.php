@@ -28,6 +28,22 @@ $routes->get('/logout', function() {
     AccountController::logout();
 });
 
+$routes->post('/accounts/:id/show', function($id) {
+    AccountController::toggle_ban($id);
+});
+
+$routes->get('/accounts/:id/show', function($id) {
+    AccountController::show($id);
+});
+
+$routes->get('/accounts/:id/edit', function($id) {
+    AccountController::edit($id);
+});
+
+$routes->post('/accounts/:id/edit', function($id) {
+    AccountController::update($id);
+});
+
 $routes->get('/movies', function() {
     MovieController::index();
 });

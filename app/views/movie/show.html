@@ -27,7 +27,9 @@
 {% for message in messages %}
 <blockquote class="blockquote bg-info">
     <p>{{message.content}}</p>
-    <p>{{forms.destroy_button("#{base_path}/messages/#{message.id}/destroy")}}</p>
+    {% if user_logged_in.id == message.user_id or user_logged_in.administrator %}
+    <p>{{forms.destroy_button("#{base_path}/messages/#{message.id}/destroy", "viestin")}}</p>
+    {% endif %}
     <footer> {{user[message.user_id].username}} <cite>{{message.posted_at}}</cite></footer>
 </blockquote>
 {% endfor %}
@@ -40,7 +42,7 @@
 {{forms.send_button("#{base_path}/movies/#{movie.id}/new")}}
 {% if user_logged_in.id == movie.creator_id or user_logged_in.administrator %}
 {{forms.edit_button("#{base_path}/movies/#{movie.id}/edit")}}
-{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy")}}
+{{forms.destroy_button("#{base_path}/movies/#{movie.id}/destroy", "elokuvan")}}
 {% endif %}
 {% endif %}
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Vaihda salasana</h1>
+<div class="col-md-6">
+    {% if errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for error in errors %}
+            <li>{{error}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <form method="post" action="{{base_path}}/accounts/{{account.id}}/edit">
+        <input type="hidden" name="id" value="{{account.id}}">
+        <div class="form-group">
+            <label>Uusi salasana</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="form-group">
+            <label>Salasana uudestaan</label>
+            <input type="password" class="form-control" name="passwordConfirmation">
+        </div>
+        <button type="submit" class="btn btn-primary">Tallenna muutokset</button>
+    </form>
+</div>
+
+{% endblock %}

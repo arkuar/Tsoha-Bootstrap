@@ -3,7 +3,12 @@
 class MovieController extends BaseController {
 
     public static function index() {
-        $movies = Movie::all();
+        $params = $_GET;
+        $options = array();
+        if(isset($params['search'])){
+            $options['search'] = $params['search'];
+        }
+        $movies = Movie::all($options);
         View::make('movie/index.html', array('movies' => $movies));
     }
 
@@ -29,7 +34,11 @@ class MovieController extends BaseController {
     public static function store() {
         self::check_logged_in();
         $params = $_POST;
-        $genres = $params['genres'];
+        if (in_array('genres', $params)) {
+            $genres = $params['genres'];
+        } else {
+            $genres = array();
+        }
         $movie = new Movie(array(
             'creator_id' => parent::get_user_logged_in()->id,
             'name' => $params['name'],

@@ -31,13 +31,28 @@ class BaseController {
     }
 
     public static function user_is_author($movie) {
-        if(self::user_is_admin()){
+        if (self::user_is_admin()) {
             return true;
         }
         if (isset($_SESSION['user'])) {
             $account_id = $_SESSION['user'];
             $account = Account::find($account_id);
             if ($movie->creator_id == $account->id) {
+                return true;
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public static function user_is_poster($message) {
+        if (self::user_is_admin()) {
+            return true;
+        }
+        if (isset($_SESSION['user'])) {
+            $account_id = $_SESSION['user'];
+            if ($message->user_id == $account_id) {
                 return true;
             } else {
                 return null;

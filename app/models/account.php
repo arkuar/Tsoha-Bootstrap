@@ -113,5 +113,12 @@ class Account extends BaseModel {
                 . 'password = :password WHERE id = :id');
         $query->execute(array('id' => $this->id, 'password' => $this->password));
     }
+    
+    public function toggle_ban(){
+        $query = DB::connection()->prepare('UPDATE Account SET banned = NOT :banned WHERE id = :id');
+        $query->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $query->bindValue(':banned', $this->banned, PDO::PARAM_BOOL);
+        $query->execute();
+    }
 
 }
