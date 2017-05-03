@@ -120,5 +120,10 @@ class Account extends BaseModel {
         $query->bindValue(':banned', $this->banned, PDO::PARAM_BOOL);
         $query->execute();
     }
+    
+    public function destroy(){
+        $query = DB::connection()->prepare('DELETE FROM Account WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+    }
 
 }

@@ -44,6 +44,10 @@ $routes->post('/accounts/:id/edit', function($id) {
     AccountController::update($id);
 });
 
+$routes->post('/accounts/:id/destroy', function($id) {
+    AccountController::destroy($id);
+});
+
 $routes->get('/movies', function() {
     MovieController::index();
 });

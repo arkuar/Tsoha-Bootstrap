@@ -13,7 +13,15 @@ class BaseController {
 
     public static function check_logged_in() {
         if (!isset($_SESSION['user'])) {
-            Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään!'));
+            Redirect::to('/login', array('error' => 'Kirjaudu ensin sisään!'));
+        } else {
+            $account = Account::find($_SESSION['user']);
+            if ($account == null) {
+                Redirect::to('/login', array('error' => 'Kirjaudu ensin sisään'));
+            } else if ($account->banned) {
+                $_SESSION['user'] = null;
+                Redirect::to('/login', array('error' => 'Käyttäjätili jäädytetty'));
+            }
         }
     }
 

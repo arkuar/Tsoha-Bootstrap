@@ -117,5 +117,23 @@ class AccountController extends BaseController {
         $account->toggle_ban();
         Redirect::to('/accounts/' . $account->id . '/show');
     }
+    
+    public static function destroy($id){
+        self::check_logged_in();
+        $account = Account::find($id);
+        $messages = Message::find_by_user($account->id);
+        $movies = Movie::find_by_creator($id);
+        if($account->id == self::get_user_logged_in()->id){
+            $_SESSION['user'] = null;
+        }
+        foreach ($messages as $message){
+            $message->destroy();
+        }
+        foreach ($movies as $movie){
+            $movie->destroy();
+        }
+        $account->destroy();
+        Redirect::to('/', array('notice' => 'Käyttäjä poistettu onnistuneesti'));
+    }
 
 }

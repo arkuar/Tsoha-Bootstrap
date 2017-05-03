@@ -14,7 +14,7 @@
 <br>
 {% if user_logged_in %}
 {{forms.edit_button("#{base_path}/accounts/#{account.id}/edit", "Vaihda salasana")}}
-{{forms.destroy_button("#{base_path}/accounts/#{account.id}/destroy", "käyttäjä")}}
+{{forms.destroy_button("#{base_path}/accounts/#{account.id}/destroy", "käyttäjän")}}
 {% endif %}
 {% if user_logged_in.administrator %}
 {% if account.banned %}

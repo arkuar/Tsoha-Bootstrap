@@ -27,8 +27,8 @@ class Movie extends BaseModel {
         if ($message != '') {
             $errors[] = $message;
         }
-        if (intval($this->year) < 0) {
-            $errors[] = 'Vuoden pitää olla positiivinen!';
+        if (intval($this->year) < 1900) {
+            $errors[] = 'Vuoden pitää olla suurempi kuin 1900!';
         }
         if (intval($this->year) > intval(date("Y"))) {
             $errors[] = 'Vuosi ei voi olla suurempi kuin nykyinen!';
@@ -40,16 +40,16 @@ class Movie extends BaseModel {
         $query_string = 'SELECT movie.*, COUNT(m.id) FROM Movie movie'
                 . ' LEFT JOIN Message m ON m.movie_id = Movie.id GROUP BY movie.id, movie.creator_id'
                 . ', movie.name, movie.year, movie.description';
-        
-        if(isset($options['search'])){
+
+        if (isset($options['search'])) {
             $query_string = 'SELECT movie.*, COUNT(m.id) FROM Movie movie'
                     . ' INNER JOIN Message m ON m.movie_id = movie.id AND UPPER(movie.name) LIKE UPPER(:like)'
                     . ' GROUP BY movie.id, movie.creator_id, movie.name, movie.year, movie.description;';
             $options['like'] = '%' . $options['search'] . '%';
         }
-        
+
         $query = DB::connection()->prepare($query_string);
-        if(isset($options['search'])){
+        if (isset($options['search'])) {
             $query->execute(array('like' => $options['like']));
         } else {
             $query->execute();
@@ -91,6 +91,21 @@ class Movie extends BaseModel {
     public static function find_by_genre($id) {
         $query = DB::connection()->prepare('SELECT movie.name, movie.id, movie.year FROM Movie '
                 . 'INNER JOIN MovieGenre mg ON mg.movie_id = movie.id AND mg.genre_id = :id');
+        $query->execute(array('id' => $id));
+        $rows = $query->fetchAll();
+        $movies = array();
+        foreach ($rows as $row) {
+            $movies[] = new Movie(array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'year' => $row['year']
+            ));
+        }
+        return $movies;
+    }
+
+    public static function find_by_creator($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Movie WHERE creator_id = :id');
         $query->execute(array('id' => $id));
         $rows = $query->fetchAll();
         $movies = array();

@@ -5,7 +5,7 @@ class MovieController extends BaseController {
     public static function index() {
         $params = $_GET;
         $options = array();
-        if(isset($params['search'])){
+        if (isset($params['search'])) {
             $options['search'] = $params['search'];
         }
         $movies = Movie::all($options);
@@ -34,7 +34,7 @@ class MovieController extends BaseController {
     public static function store() {
         self::check_logged_in();
         $params = $_POST;
-        if (in_array('genres', $params)) {
+        if (isset($params['genres'])) {
             $genres = $params['genres'];
         } else {
             $genres = array();
@@ -56,7 +56,8 @@ class MovieController extends BaseController {
             $movie->save();
             Redirect::to('/movies/' . $movie->id, array('notice' => 'Elokuva lisätty'));
         } else {
-            View::make('/movie/new.html', array('errors' => $errors, 'attributes' => $movie));
+            $viewGenres = Genre::all();
+            View::make('/movie/new.html', array('errors' => $errors, 'attributes' => $movie, 'genres' => $viewGenres));
         }
     }
 
@@ -74,8 +75,11 @@ class MovieController extends BaseController {
     public static function update($id) {
         self::check_logged_in();
         $params = $_POST;
-        $genres = $params['genres'];
-
+        if (isset($params['genres'])) {
+            $genres = $params['genres'];
+        } else {
+            $genres = array();
+        }
         $movie = new Movie(array(
             'id' => $id,
             'creator_id' => $params['creator_id'],
@@ -99,7 +103,8 @@ class MovieController extends BaseController {
             $movie->update();
             Redirect::to('/movies/' . $movie->id, array('notice' => 'Elokuvaa muokattu onnistuneesti'));
         } else {
-            View::make('movie/edit.html', array('errors' => $errors, 'attributes' => $movie));
+            $viewGenres = Genre::all();
+            View::make('movie/edit.html', array('errors' => $errors, 'attributes' => $movie, 'genres' => $viewGenres));
         }
     }
 
